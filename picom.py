@@ -60,56 +60,56 @@ def ic7410_clear_memory():
 
 def ic7410_show_mode(byte):
     if byte == "\x00":
-        print "Mode: LSB"
+        print ("Mode: LSB")
     elif byte == "\x01":
-        print "Mode: USB"
+        print ("Mode: USB")
     elif byte == "\x02":
-        print "Mode: AM"
+        print ("Mode: AM")
     elif byte == "\x03":
-        print "Mode: CW"
+        print ("Mode: CW")
     elif byte == "\x04":
-        print "Mode: RTTY"
+        print ("Mode: RTTY")
     elif byte == "\x05":
-        print "Mode: FM"
+        print ("Mode: FM")
     elif byte == "\x06":
-        print "Mode: Wide FM"
+        print ("Mode: Wide FM")
     elif byte == "\x07":
-        print "Mode: CW-R"
+        print ("Mode: CW-R")
     elif byte == "\x08":
-        print "Mode: RTTY-R"
+        print ("Mode: RTTY-R")
 
 def ic7410_show_filter(byte):
     if byte == "\x01":
-        print "Filter: 1"
+        print ("Filter: 1")
     elif byte == "\x02":
-        print "Filter: 2"
+        print ("Filter: 2")
     elif byte == "\x03":
-        print "Filter: 3"
+        print ("Filter: 3")
 
 def ic7410_show_frequency(cmd):
     cmd = ''.join(cmd).encode('hex')
-    print "Frequency:" + cmd[10:11]+"."+cmd[11:12]+cmd[8:9]+cmd[9:10] + "." + cmd[6:7]+ cmd[7:8] + cmd[4:5] + "." + cmd[5:6]+ cmd[2:3]
+    print ("Frequency:" + cmd[10:11]+"."+cmd[11:12]+cmd[8:9]+cmd[9:10] + "." + cmd[6:7]+ cmd[7:8] + cmd[4:5] + "." + cmd[5:6]+ cmd[2:3])
 
 def ic7410_show_band_edge(cmd):
     cmd = ''.join(cmd).encode('hex')
-    print "Band Start:" + cmd[10:11]+"."+cmd[11:12]+cmd[8:9]+cmd[9:10] + "." + cmd[6:7]+ cmd[7:8] + cmd[4:5] + "." + cmd[5:6]+ cmd[2:3] 
-    print "Band End:" + cmd[22:23]+"."+cmd[23:24]+cmd[20:21]+cmd[21:22] + "." + cmd[18:19]+ cmd[19:20] + cmd[16:17] + "." + cmd[17:18]+ cmd[14:15] 
+    print ("Band Start:" + cmd[10:11]+"."+cmd[11:12]+cmd[8:9]+cmd[9:10] + "." + cmd[6:7]+ cmd[7:8] + cmd[4:5] + "." + cmd[5:6]+ cmd[2:3] )
+    print ("Band End:" + cmd[22:23]+"."+cmd[23:24]+cmd[20:21]+cmd[21:22] + "." + cmd[18:19]+ cmd[19:20] + cmd[16:17] + "." + cmd[17:18]+ cmd[14:15] )
 
 def ic7410_read():
     s = ""
     while s != "\xfe":
-        if debug : print "waiting for sync...." + s.encode('hex')
+        if debug : print ("waiting for sync...." + s.encode('hex'))
         s = ser.read()
     if ser.read() == "\xfe":
-        if debug : print "synced, packet info :"
+        if debug : print ("synced, packet info :")
         i = 0
         command = []
         while s != "\xfd":
             s = ser.read()
             if  i == 0 :
-                if debug : print "TO:"+ s.encode('hex')
+                if debug : print ("TO:"+ s.encode('hex'))
             elif i == 1:
-                if debug : print "FROM:"+ s.encode('hex')
+                if debug : print ("FROM:"+ s.encode('hex'))
             else:
                 command.append(s)
             i +=1
@@ -146,13 +146,13 @@ while read!=0:
             ic7410_show_mode(cmd[1])
             ic7410_show_filter(cmd[2])
         elif cmd[0] == "\x06":
-                if debug : print "set mode :"
+                if debug : print ("set mode :")
         elif cmd[0] == "\x07":
-                if debug : print "set vfo :"
+                if debug : print ("set vfo :")
         elif cmd[0] == "\x08":
-                if debug : print "set mem :"
+                if debug : print ("set mem :")
         else:
-            print "Unknown Command (" +cmd[0].encode('hex')+ "), mail blendz@shaw.ca"
-            print cmd
+            print ("Unknown Command (" +cmd[0].encode('hex')+ "), mail blendz@shaw.ca")
+            print (cmd)
 ser.close()
 
